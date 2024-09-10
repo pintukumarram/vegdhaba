@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vegeterian-Dhaba</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js"></script>
+  <!-- Firebase Authentication -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js"></script>
+  <link rel="stylesheet" href="./style..css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">VegDhaba</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#fastfood">Fast Food</a></li>
+      <li><a href="#dinner">Dinner</a></li>
+      <li><a href="#lunch">Lunch</a></li>
+      <li><a href="#herbaldrinks">Herbal Drinks</a></li>
+      <li><a href="#orders">Orders</a></li>
+      <li><a href="#" onclick="openLogin()">Login</a></li>
+      <li><a href="#" onclick="openSignIn()">Sign In</a></li>
+      <li><a href="#cart">Cart</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" onclick="openAccount()">Account</a></li>
+    </ul>
+    <!-- Hamburger Icon -->
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </nav>
+
+  <!-- Landing Page -->
+  <section class="landing-page" id="home">
+    <div class="landing-content">
+      <h1>Welcome to Our VegDhaba</h1>
+      <p>Experience the best vegetarian delights in town.</p>
+      <a href="#fastfood" class="cta-btn">Explore Menu</a>
+    </div>
+  </section>
+
+
+
+  <!-- Authentication Modals -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('loginModal')">&times;</span>
+      <h2>Login</h2>
+      <button onclick="loginWithGoogle()">Login with Google</button>
+      <!-- Add more login options if needed -->
+    </div>
+  </div>
+
+  <div id="signInModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('signInModal')">&times;</span>
+      <h2>Sign In</h2>
+      <button onclick="signInWithGoogle()">Sign In with Google</button>
+      <!-- Add more sign-in options if needed -->
+    </div>
+  </div>
+
+  <div id="accountModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('accountModal')">&times;</span>
+      <h2>User Account</h2>
+      <p id="userDetails"></p>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- <script src="script.js"></script> -->
+  <!-- Food Categories -->
+  <div class="container">
+    <!-- Fast Food Section -->
+    <section id="fastfood">
+      <h2>Fast Food</h2>
+      <div class="menu-items">
+        <div class="menu-item">
+          <span>Paneer Pizza - Rs. 500</span>
+          <button onclick="addToOrder('Paneer Pizza', 500)">Add</button>
+        </div>
+        <div class="menu-item">
+          <span>Veg Burger - Rs. 300</span>
+          <button onclick="addToOrder('Veg Burger', 300)">Add</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dinner Section -->
+    <section id="dinner">
+      <h2>Dinner</h2>
+      <div class="menu-items">
+        <div class="menu-item">
+          <span>Paneer Butter Masala - Rs. 250</span>
+          <button onclick="addToOrder('Paneer Butter Masala', 250)">Add</button>
+        </div>
+        <div class="menu-item">
+          <span>Dal Tadka - Rs. 150</span>
+          <button onclick="addToOrder('Dal Tadka', 150)">Add</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lunch Section -->
+    <section id="lunch">
+      <h2>Lunch</h2>
+      <div class="menu-items">
+        <div class="menu-item">
+          <span>Aloo Gobi - Rs. 200</span>
+          <button onclick="addToOrder('Aloo Gobi', 200)">Add</button>
+        </div>
+        <div class="menu-item">
+          <span>Chole Bhature - Rs. 300</span>
+          <button onclick="addToOrder('Chole Bhature', 300)">Add</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Herbal Drinks Section -->
+    <section id="herbaldrinks">
+      <h2>Herbal Drinks</h2>
+      <div class="menu-items">
+        <div class="menu-item">
+          <span>Masala Chai - Rs. 50</span>
+          <button onclick="addToOrder('Masala Chai', 50)">Add</button>
+        </div>
+        <div class="menu-item">
+          <span>Ginger Tea - Rs. 60</span>
+          <button onclick="addToOrder('Ginger Tea', 60)">Add</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Summary -->
+    <div id="orderSummary">
+      <h2>Your Order</h2>
+      <ul id="orderList"></ul>
+      <div class="order-total">
+        Total: Rs. <span id="totalAmount">0</span>
+      </div>
+      <div class="discount" id="discountMessage"></div>
+      <button class="place-order" onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <p>Email: contact@restaurant.com | Phone: +91 9876543210</p>
+    </section>
+
+    <!-- Share Section -->
+    <div class="share">
+      <p>Share this amazing experience:</p>
+      <a href="#" class="share-btn">Facebook</a>
+      <a href="#" class="share-btn">Twitter</a>
+      <a href="#" class="share-btn">LinkedIn</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Restaurant. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
